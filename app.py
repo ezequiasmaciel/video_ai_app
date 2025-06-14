@@ -1,26 +1,41 @@
 import streamlit as st
-from image_gen import gen_images
-from video_search import download_clip
-from tts import synthesize
-from subtitle import gen_subtitles
-from editor import compose_video
+from tts import synthesize  # Certifique-se de que o módulo TTS está instalado corretamente
 
-st.title("🎬 Gerador de Vídeo IA")
+# Função para gerar imagens ou clipes com base no roteiro
+def gen_images(uploads, roteiro):
+    # Implementação da geração de imagens
+    pass
 
-uploads = st.file_uploader("1–5 imagens do personagem (opcional)", type=["png","jpg"], accept_multiple_files=True)
-roteiro = st.text_area("Cole o roteiro aqui")
-langs = st.multiselect("Idiomas (nar. + legendas)", ["pt","en","es"], default=["pt"])
-modo = st.selectbox("Modo de criação", ["Imagens IA", "Vídeos gratuitos"])
+def download_clip(seg):
+    # Implementação do download de clipe
+    pass
+
+def gen_subtitles(roteiro, langs):
+    # Implementação da geração de legendas
+    pass
+
+def compose_video(imgs, audio, subs):
+    # Implementação da composição do vídeo
+    pass
+
+# Interface do usuário
+st.title("Gerador de Vídeo com Narração")
+modo = st.radio("Escolha o modo:", ("Imagens IA", "Clipes"))
+
+uploads = st.file_uploader("Envie suas imagens", accept_multiple_files=True)
+roteiro = st.text_area("Digite o roteiro")
+
+langs = ["pt-BR"]  # Idioma da narração
 
 if st.button("Gerar vídeo"):
-    with st.spinner("Gerando vídeo..."):
-        if modo == "Imagens IA":
-            imgs = gen_images(uploads, roteiro)
-        else:
-            imgs = [download_clip(seg) for seg in roteiro.split("\n") if seg.strip()]
-        audio = synthesize(roteiro, langs)
-        subs = gen_subtitles(audio, langs)
-        video_path = compose_video(imgs, audio, subs)
-    st.success("Vídeo pronto!")
+    if modo == "Imagens IA":
+        imgs = gen_images(uploads, roteiro)
+    else:
+        imgs = [download_clip(seg) for seg in roteiro.split("\n") if seg.strip()]
+    
+    # Geração da narração ao vivo
+    synthesize(roteiro, langs)
+    
+    subs = gen_subtitles(roteiro, langs)  # Geração de legendas sem áudio
+    video_path = compose_video(imgs, None, subs)
     st.video(video_path)
-    st.download_button("📥 Baixar vídeo", open(video_path, "rb"), "video_final.mp4", "video/mp4")
