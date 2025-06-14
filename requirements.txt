@@ -1,5 +1,5 @@
 streamlit
-TTS
+streamlit-TTS
 whisper
 moviepy
 pexels-api-py
