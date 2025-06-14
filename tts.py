@@ -1,13 +1,11 @@
-from TTS.api import TTS
-
-tts = TTS(model_name="tts_models/multilingual/multi-dataset/xtts_v1")
+from streamlit_TTS import text_to_speech
 
 def synthesize(text, langs):
     """
-    Gera narração para o texto dado nos idiomas listados.
-    Retorna o caminho para o arquivo audio.wav
+    Gera narração nos idiomas selecionados.
+    Retorna apenas o último arquivo de áudio (player no front-end Streamlit).
     """
-    # TODO: dividir texto por idioma e concatenação
-    output = "output/audio.wav"
-    tts.tts_to_file(text=text, file_path=output)
-    return output
+    for lang in langs:
+        text_to_speech(text=text, language=lang)
+    # Não gera arquivo físico, play direto no app
+    return None
