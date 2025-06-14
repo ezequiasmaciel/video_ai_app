@@ -3,4 +3,4 @@ streamlit-TTS
 whisper
 moviepy
 pexels-api-py
-openai
+openai==1.20.0
